@@ -12,6 +12,4 @@ public class ActuatorHealth {
     public ResponseEntity<Map<String, String>> healthCheck() {
         return ResponseEntity.ok(Map.of("message", "System ON"));
     }
-
-
 }
