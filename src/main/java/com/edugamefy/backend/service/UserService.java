@@ -7,8 +7,7 @@ import com.edugamefy.backend.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -22,13 +21,20 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<UserDTO> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(user -> new UserDTO(user.getId(), user.getEmail(), user.getUsername()))
-                .collect(Collectors.toList());
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public UserDTO createUser(User user) {
+
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new IllegalArgumentException("Username já cadastrado");
+        }
+
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email já cadastrado");
+        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User saved = userRepository.save(user);
         return new UserDTO(saved.getId(), saved.getEmail(), saved.getUsername());
