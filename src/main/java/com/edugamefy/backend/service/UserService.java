@@ -37,11 +37,11 @@ public class UserService {
     }
 
     public CreateNewUserResponse createUser(CreateNewUserRequest user) {
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+        if (userRepository.findByUsername(user.username()).isPresent()) {
             throw new IllegalArgumentException("Username já cadastrado");
         }
 
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(user.email()).isPresent()) {
             throw new IllegalArgumentException("Email já cadastrado");
         }
 
