@@ -36,6 +36,5 @@ public class User {
         this.email = request.email();
         this.username = request.username();
         this.password = request.password();
-        this.balance = request.balance();
     }
 }
