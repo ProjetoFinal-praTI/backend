@@ -2,19 +2,13 @@ package com.edugamefy.backend.controller;
 
 import com.edugamefy.backend.Entity.User;
 import com.edugamefy.backend.service.UserService;
-
-import com.edugamefy.backend.viewModels.users.CreateNewUserRequest;
-import com.edugamefy.backend.viewModels.users.CreateNewUserResponse;
-import com.edugamefy.backend.viewModels.balance.NewBalanceRequest;
-import com.edugamefy.backend.viewModels.balance.NewBalanceResponse;
-
+import com.edugamefy.backend.viewModels.users.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -29,26 +23,38 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers (){
-        List<User> users = this.userService.getAllUsers();
-        return  new ResponseEntity<>(users, HttpStatus.OK);
+    public ResponseEntity<List<UserResponse>> getAllUsers (){
+        List<UserResponse> users = userService.getAllUsers()
+                .stream()
+                .map(user -> new UserResponse(
+                        user.getId(),
+                        user.getUsername(),
+                        user.getEmail()
+                ))
+                .toList();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> getUsersById (@PathVariable Long id) throws Exception {
-        User user = this.userService.findUserById(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<UserResponse> getUsersById (@PathVariable Long id) throws Exception {
+        User user = userService.findUserById(id);
+        UserResponse response = new UserResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail()
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/addBalance")
-    public ResponseEntity<?> addBalance(@PathVariable Long id, @RequestBody NewBalanceRequest balance) throws Exception {
-        try {
-            NewBalanceResponse newBalance = this.userService.addBalance(id, balance);
-            return new ResponseEntity<>(newBalance, HttpStatus.CREATED);
-        }catch (Exception ex) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("error", ex.getMessage()));
-        }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest userRequest) throws Exception {
+            UpdateUserResponse updated = this.userService.updateUser(id, userRequest);
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) throws Exception {
+            this.userService.deleteUser(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

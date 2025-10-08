@@ -8,6 +8,8 @@ import com.edugamefy.backend.viewModels.users.CreateNewUserResponse;
 import com.edugamefy.backend.viewModels.balance.NewBalanceResponse;
 import com.edugamefy.backend.viewModels.balance.NewBalanceRequest;
 import com.edugamefy.backend.repository.UserRepository;
+import com.edugamefy.backend.viewModels.users.UpdateUserRequest;
+import com.edugamefy.backend.viewModels.users.UpdateUserResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,6 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User updateUser (User user) {
-        return this.userRepository.save(user);
-    }
     public void saveUser(User user)
     {
         this.userRepository.save(user);
@@ -55,21 +54,24 @@ public class UserService {
         return this.userRepository.findUserById(id).orElseThrow(() -> new NotFoundException("Usuário com ID " + id + " não encontrado"));
     }
 
-    public NewBalanceResponse addBalance(Long id, NewBalanceRequest balance) {
-        if (balance.amount().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new InvalidInputException("O valor para adicionar deve ser maior que zero.");
-        }
-
+    public UpdateUserResponse updateUser(Long id, UpdateUserRequest request) throws Exception {
         User user = findUserById(id);
 
-        if (user.getBalance() == null) {
-            user.setBalance(BigDecimal.ZERO);
+        if (request.email() != null && !request.email().isBlank()) {
+            user.setEmail(request.email());
         }
+        if (request.username() != null && !request.username().isBlank()) {
+            user.setUsername(request.username());
+        }
+        if (request.password() != null && !request.password().isBlank()) {
+            user.setPassword(passwordEncoder.encode(request.password()));
+        }
+        User updated = userRepository.save(user);
+        return new UpdateUserResponse(updated.getId(), updated.getUsername(), updated.getEmail());
+    }
 
-        user.setBalance(user.getBalance().add(balance.amount()));
-
-        this.saveUser(user);
-
-        return new NewBalanceResponse(user.getBalance());
+    public void deleteUser(Long id) throws Exception {
+        User user = findUserById(id);
+        userRepository.delete(user);
     }
 }
