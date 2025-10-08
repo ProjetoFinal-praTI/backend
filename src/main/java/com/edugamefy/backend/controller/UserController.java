@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -39,9 +40,15 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}/addBalance")
-    public ResponseEntity<NewBalanceResponse> addBalance(@PathVariable Long id, @RequestBody NewBalanceRequest balance) throws Exception {
-        NewBalanceResponse newBalance = this.userService.addBalance(id, balance);
-        return new ResponseEntity<>(newBalance, HttpStatus.OK);
+    @PostMapping("/{id}/addBalance")
+    public ResponseEntity<?> addBalance(@PathVariable Long id, @RequestBody NewBalanceRequest balance) throws Exception {
+        try {
+            NewBalanceResponse newBalance = this.userService.addBalance(id, balance);
+            return new ResponseEntity<>(newBalance, HttpStatus.CREATED);
+        }catch (Exception ex) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", ex.getMessage()));
+        }
     }
 }

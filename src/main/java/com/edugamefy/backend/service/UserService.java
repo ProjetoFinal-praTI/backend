@@ -1,6 +1,8 @@
 package com.edugamefy.backend.service;
 
 import com.edugamefy.backend.Entity.User;
+import com.edugamefy.backend.exception.InvalidInputException;
+import com.edugamefy.backend.exception.NotFoundException;
 import com.edugamefy.backend.viewModels.users.CreateNewUserRequest;
 import com.edugamefy.backend.viewModels.users.CreateNewUserResponse;
 import com.edugamefy.backend.viewModels.balance.NewBalanceResponse;
@@ -49,13 +51,13 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public User findUserById (Long id) throws Exception {
-        return this.userRepository.findUserById(id).orElseThrow(() -> new Exception("Usuário não encontrado"));
+    public User findUserById (Long id) {
+        return this.userRepository.findUserById(id).orElseThrow(() -> new NotFoundException("Usuário com ID " + id + " não encontrado"));
     }
 
-    public NewBalanceResponse addBalance(Long id, NewBalanceRequest balance) throws Exception {
+    public NewBalanceResponse addBalance(Long id, NewBalanceRequest balance) {
         if (balance.amount().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new Exception("O valor para adicionar deve ser maior que zero.");
+            throw new InvalidInputException("O valor para adicionar deve ser maior que zero.");
         }
 
         User user = findUserById(id);
@@ -69,6 +71,5 @@ public class UserService {
         this.saveUser(user);
 
         return new NewBalanceResponse(user.getBalance());
-
     }
 }
