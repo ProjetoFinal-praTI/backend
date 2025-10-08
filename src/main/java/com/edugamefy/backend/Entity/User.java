@@ -1,6 +1,8 @@
 package com.edugamefy.backend.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -15,6 +17,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Email
+    @NotNull(message = "Email cannot be null")
     @Column(nullable = false, unique = true)
     private String email;
 
