@@ -30,8 +30,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private BigDecimal balance;
-
     public User(CreateNewUserRequest request){
         this.email = request.email();
         this.username = request.username();
