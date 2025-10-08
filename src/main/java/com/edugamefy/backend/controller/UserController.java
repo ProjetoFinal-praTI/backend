@@ -1,6 +1,8 @@
 package com.edugamefy.backend.controller;
 
 import com.edugamefy.backend.Entity.User;
+import com.edugamefy.backend.dto.ResponseWrapper;
+import com.edugamefy.backend.dto.UserDTO;
 import com.edugamefy.backend.service.UserService;
 import com.edugamefy.backend.viewModels.users.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,20 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @PostMapping
+    public ResponseEntity<ResponseWrapper<?>> createUser(@RequestBody User user) {
+        try {
+            UserDTO userDTO = userService.createUser(user);
+            ResponseWrapper<UserDTO> response = new ResponseWrapper<>(userDTO, true);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            ResponseWrapper<String> response = new ResponseWrapper<>(e.getMessage(), false);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(response);
+        }
+    }
 
     @PostMapping
     public ResponseEntity<CreateNewUserResponse> createUser(@RequestBody CreateNewUserRequest user) throws Exception {

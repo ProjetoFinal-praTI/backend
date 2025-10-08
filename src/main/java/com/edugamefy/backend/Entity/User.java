@@ -2,6 +2,8 @@ package com.edugamefy.backend.Entity;
 
 import com.edugamefy.backend.viewModels.users.CreateNewUserRequest;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.math.BigDecimal;
 
@@ -17,6 +19,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Email
+    @NotNull(message = "Email cannot be null")
     @Column(nullable = false, unique = true)
     private String email;
 

@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Optional;
 import java.util.List;
 
 @Service
@@ -18,7 +19,6 @@ public class UserService {
 
     @Autowired
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository,
@@ -27,18 +27,30 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     public void saveUser(User user)
     {
         this.userRepository.save(user);
     }
 
     public CreateNewUserResponse createUser(CreateNewUserRequest user) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new IllegalArgumentException("Username já cadastrado");
+        }
+
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email já cadastrado");
+        }
+
         User newUser = new User(user);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         this.saveUser(newUser);
 
-        return new CreateNewUserResponse(newUser.getEmail(), newUser.getUsername(), newUser.getBalance());
+        return new CreateNewUserResponse(newUser.getEmail(), newUser.getUsername());
     }
 
     public List<User> getAllUsers(){
