@@ -1,12 +1,9 @@
 package com.edugamefy.backend.service;
 
 import com.edugamefy.backend.Entity.User;
-import com.edugamefy.backend.exception.InvalidInputException;
 import com.edugamefy.backend.exception.NotFoundException;
 import com.edugamefy.backend.viewModels.users.CreateNewUserRequest;
 import com.edugamefy.backend.viewModels.users.CreateNewUserResponse;
-import com.edugamefy.backend.viewModels.balance.NewBalanceResponse;
-import com.edugamefy.backend.viewModels.balance.NewBalanceRequest;
 import com.edugamefy.backend.repository.UserRepository;
 import com.edugamefy.backend.viewModels.users.UpdateUserRequest;
 import com.edugamefy.backend.viewModels.users.UpdateUserResponse;
@@ -15,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.math.BigDecimal;
 
 @Service
 public class UserService {
