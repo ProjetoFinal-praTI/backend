@@ -1,8 +1,8 @@
 package com.edugamefy.backend.service;
 
 import com.edugamefy.backend.dto.TransactionDTO;
-import com.edugamefy.backend.entity.Transaction;
-import com.edugamefy.backend.entity.User;
+import com.edugamefy.backend.Entity.Transaction;
+import com.edugamefy.backend.Entity.User;
 import com.edugamefy.backend.repository.TransactionRepository;
 import com.edugamefy.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;

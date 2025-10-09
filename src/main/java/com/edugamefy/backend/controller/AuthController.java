@@ -1,6 +1,6 @@
 package com.edugamefy.backend.controller;
 
-import com.edugamefy.backend.entity.User;
+import com.edugamefy.backend.Entity.User;
 import com.edugamefy.backend.config.JwtUtil;
 import com.edugamefy.backend.dto.Login.LoginRequest;
 import com.edugamefy.backend.dto.Login.LoginResponse;

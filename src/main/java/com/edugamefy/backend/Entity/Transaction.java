@@ -1,6 +1,6 @@
-package com.edugamefy.backend.entity;
+package com.edugamefy.backend.Entity;
 
-import com.edugamefy.backend.entity.User; 
+import com.edugamefy.backend.Entity.User; 
 import jakarta.persistence.*;
 import lombok.*;
 

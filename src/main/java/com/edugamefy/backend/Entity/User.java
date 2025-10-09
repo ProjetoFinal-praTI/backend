@@ -1,4 +1,4 @@
-package com.edugamefy.backend.entity;
+package com.edugamefy.backend.Entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

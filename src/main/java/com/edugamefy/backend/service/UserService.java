@@ -1,6 +1,6 @@
 package com.edugamefy.backend.service;
 
-import com.edugamefy.backend.entity.User;
+import com.edugamefy.backend.Entity.User;
 import com.edugamefy.backend.dto.UserDTO;
 import com.edugamefy.backend.repository.UserRepository;
 

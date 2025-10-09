@@ -1,6 +1,6 @@
 package com.edugamefy.backend.repository;
 
-import com.edugamefy.backend.entity.Transaction;
+import com.edugamefy.backend.Entity.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

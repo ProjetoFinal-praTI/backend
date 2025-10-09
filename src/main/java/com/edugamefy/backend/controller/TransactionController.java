@@ -1,6 +1,6 @@
 package com.edugamefy.backend.controller;
 
-import com.edugamefy.backend.entity.Transaction;
+import com.edugamefy.backend.Entity.Transaction;
 import com.edugamefy.backend.service.TransactionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
