@@ -1,6 +1,6 @@
 package com.edugamefy.backend.controller;
 
-import com.edugamefy.backend.Entity.User;
+import com.edugamefy.backend.entity.User;
 import com.edugamefy.backend.dto.ResponseWrapper;
 import com.edugamefy.backend.dto.UserDTO;
 import com.edugamefy.backend.service.UserService;

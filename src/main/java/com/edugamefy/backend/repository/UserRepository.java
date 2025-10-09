@@ -1,6 +1,6 @@
 package com.edugamefy.backend.repository;
 
-import com.edugamefy.backend.Entity.User;
+import com.edugamefy.backend.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
