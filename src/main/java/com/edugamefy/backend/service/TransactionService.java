@@ -24,17 +24,17 @@ public class TransactionService {
 
     public Transaction save(TransactionDTO dto) {
         User user = userRepository.findById(dto.getUserId())
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usu├írio n├úo encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
 
         Transaction transaction = Transaction.builder()
-            .value(dto.getValue())
-            .description(dto.getDescription())
-            .date(dto.getDate())
-            .category(dto.getCategory())
-            .transactionType(dto.getTransactionType())
-            .paymentMethod(dto.getPaymentMethod())
-            .user(user)
-            .build();
+                .value(dto.getValue())
+                .description(dto.getDescription())
+                .date(dto.getDate())
+                .category(dto.getCategory())
+                .transactionType(dto.getTransactionType())
+                .paymentMethod(dto.getPaymentMethod())
+                .user(user)
+                .build();
 
         return transactionRepository.save(transaction);
     }
