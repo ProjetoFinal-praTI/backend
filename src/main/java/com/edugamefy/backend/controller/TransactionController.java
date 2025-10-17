@@ -4,7 +4,7 @@ import com.edugamefy.backend.service.TransactionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.edugamefy.backend.dto.TransactionDTO;
-import com.edugamefy.backend.Entity.Transaction;
+import com.edugamefy.backend.dto.TransactionResponseDTO;
 
 import java.util.List;
 
@@ -25,7 +25,15 @@ public class TransactionController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Transaction>> getTransactionsByUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(service.findByUserId(userId));
+    public ResponseEntity<List<TransactionResponseDTO>> getTransactionsByUser(@PathVariable Long userId) {
+        List<TransactionResponseDTO> transactions = service.findByUserId(userId);
+        return ResponseEntity.ok(transactions);
+    }
+
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

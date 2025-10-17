@@ -1,6 +1,7 @@
 package com.edugamefy.backend.service;
 
 import com.edugamefy.backend.dto.TransactionDTO;
+import com.edugamefy.backend.dto.TransactionResponseDTO;
 import com.edugamefy.backend.Entity.Transaction;
 import com.edugamefy.backend.Entity.User;
 import com.edugamefy.backend.repository.TransactionRepository;
@@ -10,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -39,7 +41,24 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
 
-    public List<Transaction> findByUserId(Long userId) {
-        return transactionRepository.findByUserId(userId);
+    public List<TransactionResponseDTO> findByUserId(Long userId) {
+        return transactionRepository.findByUserId(userId).stream()
+                .map(t -> TransactionResponseDTO.builder()
+                        .id(t.getId())
+                        .value(t.getValue())
+                        .description(t.getDescription())
+                        .date(t.getDate())
+                        .category(t.getCategory())
+                        .transactionType(t.getTransactionType())
+                        .paymentMethod(t.getPaymentMethod())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public void deleteById(Long id) {
+        if (!transactionRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transação não encontrada");
+        }
+        transactionRepository.deleteById(id);
     }
 }

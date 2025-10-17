@@ -2,6 +2,7 @@ package com.edugamefy.backend.Entity;
 
 import com.edugamefy.backend.Entity.User; 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -40,5 +41,6 @@ public class Transaction {
     //relacionamento com User
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false) // cria FK no banco
+    @JsonIgnore
     private User user;
 }
