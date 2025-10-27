@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -32,28 +34,41 @@ public class PasswordRecoveryService {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new NotFoundException("E-mail não encontrado"));
 
-        String token = UUID.randomUUID().toString();
-        LocalDateTime expiration = LocalDateTime.now().plusMinutes(15);
+        Optional<PasswordResetToken> existingTokenOpt = tokenRepository.findByEmail(user.getEmail())
+                .filter(token -> !token.isUsed() && token.getExpirationDate().isAfter(LocalDateTime.now()));
 
-        PasswordResetToken resetToken = PasswordResetToken.builder()
-                .email(user.getEmail())
-                .token(token)
-                .expirationDate(expiration)
-                .used(false)
-                .build();
+        PasswordResetToken resetToken;
+        String tokenValue;
 
-        tokenRepository.save(resetToken);
+        if (existingTokenOpt.isPresent()) {
+            resetToken = existingTokenOpt.get();
+            tokenValue = resetToken.getToken();
+        } else {
+            tokenValue = String.format("%06d", new Random().nextInt(999999));
+            LocalDateTime expiration = LocalDateTime.now().plusMinutes(15);
 
-        sendRecoveryEmail(user.getEmail(), token);
+            resetToken = PasswordResetToken.builder()
+                    .email(user.getEmail())
+                    .token(tokenValue)
+                    .expirationDate(expiration)
+                    .used(false)
+                    .build();
 
+            tokenRepository.save(resetToken);
+        }
+
+        sendRecoveryEmail(user.getEmail(), tokenValue);
         return new PasswordRecoveryResponse("Código de recuperação enviado para o e-mail informado.");
     }
 
     private void sendRecoveryEmail(String email, String token) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
-        message.setSubject("Recuperação de senha - EduGamefy");
-        message.setText("Seu código de recuperação é: " + token + "\n\nVálido por 15 minutos.");
+        message.setSubject("Recuperação de senha - +Finança");
+        message.setText("""
+                Seu código de recuperação é: %s
+                Válido por 15 minutos.
+                """.formatted(token));
         mailSender.send(message);
     }
 
