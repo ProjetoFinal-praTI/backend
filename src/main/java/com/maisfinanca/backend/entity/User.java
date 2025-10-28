@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity(name = "users")
 @Table(name = "users")
 @Getter
@@ -28,6 +30,12 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    private String phone;
+
+    private String location;
+
+    private LocalDate birthDate;
 
     public User(CreateNewUserRequest request){
         this.email = request.email();

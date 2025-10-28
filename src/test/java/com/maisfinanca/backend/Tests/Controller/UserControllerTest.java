@@ -11,6 +11,7 @@ import org.mockito.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,8 +66,25 @@ class UserControllerTest {
     @Test
     void getAllUsers_shouldReturnListOfUsers() {
         // Arrange
-        User user1 = new User(1L, "John", "john@example.com", "123");
-        User user2 = new User(2L, "Jane", "jane@example.com", "456");
+        User user1 = new User(
+                1L,
+                "john@example.com",
+                "John",
+                "123",
+                null,
+                null,
+                null
+        );
+
+        User user2 = new User(
+                2L,
+                "jane@example.com",
+                "Jane",
+                "456",
+                null,
+                null,
+                null
+        );
 
         when(userService.getAllUsers()).thenReturn(List.of(user1, user2));
 
@@ -82,7 +100,7 @@ class UserControllerTest {
     @Test
     void getUsersById_shouldReturnUser() throws Exception {
         // Arrange
-        User user = new User(1L, "john@example.com","John","123");
+        User user = new User(1L, "john@example.com","John","123", null, null, null);
         when(userService.findUserById(1L)).thenReturn(user);
 
         // Act
@@ -98,8 +116,8 @@ class UserControllerTest {
     @Test
     void updateUser_shouldReturnUpdatedUser() throws Exception {
         // Arrange
-        UpdateUserRequest request = new UpdateUserRequest("NewName", "new@example.com", "123");
-        UpdateUserResponse mockResponse = new UpdateUserResponse(1L, "NewName", "new@example.com");
+        UpdateUserRequest request = new UpdateUserRequest("NewName", "new@example.com", "123", null, null, null);
+        UpdateUserResponse mockResponse = new UpdateUserResponse(1L, "NewName", "new@example.com", null, null, null);
 
         when(userService.updateUser(1L, request)).thenReturn(mockResponse);
 
