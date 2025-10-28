@@ -1,7 +1,7 @@
 package com.maisfinanca.backend.service;
 
-import com.maisfinanca.backend.Entity.PasswordResetToken;
-import com.maisfinanca.backend.Entity.User;
+import com.maisfinanca.backend.entity.PasswordResetToken;
+import com.maisfinanca.backend.entity.User;
 import com.maisfinanca.backend.exception.BusinessException;
 import com.maisfinanca.backend.exception.InvalidInputException;
 import com.maisfinanca.backend.exception.NotFoundException;

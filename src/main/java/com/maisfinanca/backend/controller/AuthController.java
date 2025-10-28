@@ -1,6 +1,6 @@
 package com.maisfinanca.backend.controller;
 
-import com.maisfinanca.backend.Entity.User;
+import com.maisfinanca.backend.entity.User;
 import com.maisfinanca.backend.config.JwtUtil;
 import com.maisfinanca.backend.dto.Login.LoginRequest;
 import com.maisfinanca.backend.dto.Login.LoginResponse;
