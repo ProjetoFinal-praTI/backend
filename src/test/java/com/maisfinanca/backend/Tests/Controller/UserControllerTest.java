@@ -33,7 +33,7 @@ class UserControllerTest {
     @Test
     void createUser_shouldReturnOk_whenUserIsCreated() {
         // Arrange
-        CreateNewUserRequest request = new CreateNewUserRequest("John", "john@example.com", "123");
+        CreateNewUserRequest request = new CreateNewUserRequest("john@example.com","John", "123");
         CreateNewUserResponse mockResponse = new CreateNewUserResponse("john@example.com", "John");
 
         when(userService.createUser(request)).thenReturn(mockResponse);
@@ -116,7 +116,7 @@ class UserControllerTest {
     @Test
     void updateUser_shouldReturnUpdatedUser() throws Exception {
         // Arrange
-        UpdateUserRequest request = new UpdateUserRequest("NewName", "new@example.com", "123", null, null, null);
+        UpdateUserRequest request = new UpdateUserRequest( "new@example.com", "NewName", "123", null, null, null);
         UpdateUserResponse mockResponse = new UpdateUserResponse(1L, "NewName", "new@example.com", null, null, null);
 
         when(userService.updateUser(1L, request)).thenReturn(mockResponse);
