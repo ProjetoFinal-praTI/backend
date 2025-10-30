@@ -23,6 +23,7 @@ services:
       - .env
     environment:
       SPRING_PROFILES_ACTIVE: docker
+      jwt.secret: ${SECRET_KEY}
     ports:
       - "${APP_PORT}:8080"
     networks:
