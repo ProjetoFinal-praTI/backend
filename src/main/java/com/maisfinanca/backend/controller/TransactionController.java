@@ -1,39 +1,71 @@
 package com.maisfinanca.backend.controller;
 
+import com.maisfinanca.backend.dto.ResponseWrapper;
+import com.maisfinanca.backend.dto.Transaction.*;
 import com.maisfinanca.backend.service.TransactionService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.maisfinanca.backend.dto.TransactionDTO;
-import com.maisfinanca.backend.dto.TransactionResponseDTO;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/transactions")
+@RequiredArgsConstructor
 public class TransactionController {
 
-    private final TransactionService service;
-
-    public TransactionController(TransactionService service) {
-        this.service = service;
-    }
+    private final TransactionService transactionService;
 
     @PostMapping
-    public ResponseEntity<String> createTransaction(@RequestBody TransactionDTO dto) {
-        service.save(dto);
-        return ResponseEntity.ok("Transação concluída com sucesso!");
+    public ResponseEntity<ResponseWrapper<?>> createTransaction(@RequestBody CreateTransactionRequest request) {
+        try {
+            CreateTransactionResponse response = transactionService.createTransaction(request);
+            ResponseWrapper<CreateTransactionResponse> wrapper = new ResponseWrapper<>(response, true);
+            return ResponseEntity.ok(wrapper);
+        } catch (IllegalArgumentException e) {
+            ResponseWrapper<String> wrapper = new ResponseWrapper<>(e.getMessage(), false);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(wrapper);
+        } catch (Exception e) {
+            ResponseWrapper<String> wrapper = new ResponseWrapper<>("Erro ao criar transação", false);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(wrapper);
+        }
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<TransactionResponseDTO>> getTransactionsByUser(@PathVariable Long userId) {
-        List<TransactionResponseDTO> transactions = service.findByUserId(userId);
-        return ResponseEntity.ok(transactions);
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseWrapper<?>> getTransaction(@PathVariable Long id) {
+        try {
+            GetTransactionResponse response = transactionService.getTransaction(id);
+            ResponseWrapper<GetTransactionResponse> wrapper = new ResponseWrapper<>(response, true);
+            return ResponseEntity.ok(wrapper);
+        } catch (Exception e) {
+            ResponseWrapper<String> wrapper = new ResponseWrapper<>("Transação não encontrada", false);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(wrapper);
+        }
     }
 
-    
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseWrapper<?>> updateTransaction(
+            @PathVariable Long id,
+            @RequestBody UpdateTransactionRequest request) {
+        try {
+            request.setId(id);
+            UpdateTransactionResponse response = transactionService.updateTransaction(request);
+            ResponseWrapper<UpdateTransactionResponse> wrapper = new ResponseWrapper<>(response, true);
+            return ResponseEntity.ok(wrapper);
+        } catch (Exception e) {
+            ResponseWrapper<String> wrapper = new ResponseWrapper<>("Erro ao atualizar transação", false);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(wrapper);
+        }
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
-        service.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<ResponseWrapper<?>> deleteTransaction(@PathVariable Long id) {
+        try {
+            DeleteTransactionResponse response = transactionService.deleteTransaction(id);
+            ResponseWrapper<DeleteTransactionResponse> wrapper = new ResponseWrapper<>(response, true);
+            return ResponseEntity.ok(wrapper);
+        } catch (Exception e) {
+            ResponseWrapper<String> wrapper = new ResponseWrapper<>("Erro ao deletar transação", false);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(wrapper);
+        }
     }
 }
