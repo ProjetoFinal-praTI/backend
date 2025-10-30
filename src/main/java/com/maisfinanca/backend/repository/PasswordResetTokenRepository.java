@@ -1,6 +1,6 @@
 package com.maisfinanca.backend.repository;
 
-import com.maisfinanca.backend.Entity.PasswordResetToken;
+import com.maisfinanca.backend.entity.PasswordResetToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

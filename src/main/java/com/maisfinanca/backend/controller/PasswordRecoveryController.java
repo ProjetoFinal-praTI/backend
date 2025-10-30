@@ -1,6 +1,6 @@
 package com.maisfinanca.backend.controller;
 
-import com.maisfinanca.backend.Entity.User;
+import com.maisfinanca.backend.entity.User;
 import com.maisfinanca.backend.exception.NotFoundException;
 import com.maisfinanca.backend.repository.UserRepository;
 import com.maisfinanca.backend.service.PasswordRecoveryService;

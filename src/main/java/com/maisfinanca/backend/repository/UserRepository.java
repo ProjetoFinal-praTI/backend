@@ -1,6 +1,6 @@
 package com.maisfinanca.backend.repository;
 
-import com.maisfinanca.backend.Entity.User;
+import com.maisfinanca.backend.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

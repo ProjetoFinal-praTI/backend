@@ -1,4 +1,4 @@
-package com.maisfinanca.backend.Entity;
+package com.maisfinanca.backend.entity;
 
 import com.maisfinanca.backend.dto.User.CreateNewUserRequest;
 import jakarta.persistence.*;

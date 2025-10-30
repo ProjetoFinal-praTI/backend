@@ -1,6 +1,6 @@
-package com.maisfinanca.backend.Entity;
+package com.maisfinanca.backend.entity;
 
-import com.maisfinanca.backend.Entity.User; 
+import com.maisfinanca.backend.entity.User; 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;

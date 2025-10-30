@@ -1,6 +1,6 @@
 package com.maisfinanca.backend.service;
 
-import com.maisfinanca.backend.Entity.User;
+import com.maisfinanca.backend.entity.User;
 import com.maisfinanca.backend.exception.NotFoundException;
 import com.maisfinanca.backend.dto.User.CreateNewUserRequest;
 import com.maisfinanca.backend.dto.User.CreateNewUserResponse;
