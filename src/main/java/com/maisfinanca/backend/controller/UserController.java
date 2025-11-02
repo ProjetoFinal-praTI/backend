@@ -4,6 +4,7 @@ import com.maisfinanca.backend.entity.User;
 import com.maisfinanca.backend.dto.ResponseWrapper;
 import com.maisfinanca.backend.dto.User.*;
 import com.maisfinanca.backend.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,7 +57,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest userRequest) throws Exception {
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest userRequest) throws Exception {
             UpdateUserResponse updated = this.userService.updateUser(id, userRequest);
             return new ResponseEntity<>(updated, HttpStatus.OK);
     }

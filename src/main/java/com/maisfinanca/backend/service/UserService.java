@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.List;
 
@@ -73,8 +74,29 @@ public class UserService {
         if (request.password() != null && !request.password().isBlank()) {
             user.setPassword(passwordEncoder.encode(request.password()));
         }
+        if (request.phone() != null && !request.phone().isBlank()) {
+            user.setPhone(request.phone().trim());
+        }
+        if (request.location() != null && !request.location().isBlank()) {
+            user.setLocation(request.location().trim());
+        }
+        if (request.birthDate() != null) {
+            if (request.birthDate().isAfter(LocalDate.now())) {
+                throw new IllegalArgumentException("Data de nascimento não pode ser no futuro");
+            }
+            user.setBirthDate(request.birthDate());
+        }
+
         User updated = userRepository.save(user);
-        return new UpdateUserResponse(updated.getId(), updated.getUsername(), updated.getEmail());
+
+        return new UpdateUserResponse(
+                updated.getId(),
+                updated.getUsername(),
+                updated.getEmail(),
+                updated.getPhone(),
+                updated.getLocation(),
+                updated.getBirthDate()
+        );
     }
 
     public void deleteUser(Long id) throws Exception {
