@@ -1,8 +1,8 @@
 package com.maisfinanca.backend.service;
 
-import com.maisfinanca.backend.dto.Transaction.*;
-import com.maisfinanca.backend.Entity.Transaction;
-import com.maisfinanca.backend.Entity.User;
+import com.maisfinanca.backend.dto.Transactions.*;
+import com.maisfinanca.backend.entity.Transaction;
+import com.maisfinanca.backend.entity.User;
 import com.maisfinanca.backend.repository.TransactionRepository;
 import com.maisfinanca.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

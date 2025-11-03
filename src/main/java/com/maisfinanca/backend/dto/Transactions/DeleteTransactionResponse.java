@@ -1,4 +1,4 @@
-package com.maisfinanca.backend.dto.Transaction;
+package com.maisfinanca.backend.dto.Transactions;
 
 import lombok.*;
 

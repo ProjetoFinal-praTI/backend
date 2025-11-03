@@ -1,7 +1,7 @@
 package com.maisfinanca.backend.controller;
 
 import com.maisfinanca.backend.dto.ResponseWrapper;
-import com.maisfinanca.backend.dto.Transaction.*;
+import com.maisfinanca.backend.dto.Transactions.*;
 import com.maisfinanca.backend.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

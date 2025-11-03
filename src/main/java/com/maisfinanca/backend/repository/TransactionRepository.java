@@ -1,6 +1,6 @@
 package com.maisfinanca.backend.repository;
 
-import com.maisfinanca.backend.Entity.Transaction;
+import com.maisfinanca.backend.entity.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
