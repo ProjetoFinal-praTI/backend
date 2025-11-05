@@ -1,6 +1,8 @@
 package com.maisfinanca.backend.dto;
 
 import lombok.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -10,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 public class TransactionResponseDTO {
     private Long id;
-    private Integer value;
+    private BigDecimal value;
     private String description;
     private LocalDate date;
     private String category;
