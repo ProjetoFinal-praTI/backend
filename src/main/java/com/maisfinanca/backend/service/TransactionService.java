@@ -240,18 +240,27 @@ public class TransactionService {
 
     @Transactional
     public UpdateGoalProgressResponse updateGoalProgress(Long goalId, UpdateGoalProgressRequest request) {
+
+        if (request.newCurrentValue().compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("O valor adicionado não pode ser negativo.");
+        }
+
         FinancialGoal goal = goalRepository.findById(goalId)
                 .orElseThrow(() -> new NotFoundException("Meta não encontrada"));
 
-        if (request.newCurrentValue().compareTo(goal.getTargetValue()) > 0) {
+        BigDecimal currentValue = goal.getCurrentValue() != null ? goal.getCurrentValue() : BigDecimal.ZERO;
+
+        BigDecimal updatedValue = currentValue.add(request.newCurrentValue());
+
+        if (updatedValue.compareTo(goal.getTargetValue()) > 0) {
             throw new IllegalArgumentException("O valor atual não pode ultrapassar o valor final definido.");
         }
 
-        goal.setCurrentValue(request.newCurrentValue());
+        goal.setCurrentValue(updatedValue);
         goalRepository.save(goal);
 
         boolean reached = goal.getCurrentValue().compareTo(goal.getTargetValue()) >= 0;
-        return new UpdateGoalProgressResponse(goal.getId(), goal.getCurrentValue(), reached);
+        return new UpdateGoalProgressResponse(goal.getId(), updatedValue, reached);
     }
 
     @Transactional
