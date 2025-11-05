@@ -1,4 +1,4 @@
-package com.maisfinanca.backend.dto;
+package com.maisfinanca.backend.dto.To;
 
 import lombok.*;
 import java.time.LocalDate;
