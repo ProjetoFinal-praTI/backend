@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transactions")
@@ -20,14 +22,14 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Integer value;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal value;
 
     @Column(length = 512)
     private String description;
 
     @Column(nullable = false)
-    private LocalDate date;
+    private LocalDateTime date;
 
     private String category;
 
@@ -37,9 +39,8 @@ public class Transaction {
     @Column(nullable = false)
     private String paymentMethod;
 
-    
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) 
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
 }
