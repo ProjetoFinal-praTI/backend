@@ -8,12 +8,12 @@
 		<version>3.5.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.edugamefy</groupId>
+	<groupId>com.maisfinanca</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>backend</name>
-	<description>API for Edugamefy Application</description>
+	<description>API for MaisFinanca Application</description>
 	<url/>
 	<licenses>
 		<license/>
