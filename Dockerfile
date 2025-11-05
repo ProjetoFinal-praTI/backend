@@ -17,7 +17,7 @@ FROM eclipse-temurin:21-jdk-slim
 
 EXPOSE 8080
 # Copia o artefato da fase de build
-COPY --from=build /target/backend-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /target/mais_financa-1.0.0.jar app.jar
 
 # Executa a aplicação
 ENTRYPOINT [ "java", "-jar", "app.jar" ]
