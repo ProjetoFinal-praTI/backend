@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "financial_goals")
@@ -23,6 +24,10 @@ public class FinancialGoal {
 
     @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal currentValue;
+
+    private LocalDateTime startDate;
+
+    private LocalDateTime finalDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
