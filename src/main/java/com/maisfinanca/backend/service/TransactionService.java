@@ -215,6 +215,7 @@ public class TransactionService {
                 .name(request.name())
                 .targetValue(request.targetValue())
                 .currentValue(BigDecimal.ZERO)
+                .startDate(LocalDateTime.now())
                 .user(user)
                 .build();
 
@@ -257,6 +258,11 @@ public class TransactionService {
         }
 
         goal.setCurrentValue(updatedValue);
+
+        if (updatedValue.compareTo(goal.getTargetValue()) >= 0 && goal.getFinalDate() == null) {
+            goal.setFinalDate(LocalDateTime.now());
+        }
+
         goalRepository.save(goal);
 
         boolean reached = goal.getCurrentValue().compareTo(goal.getTargetValue()) >= 0;
