@@ -5,7 +5,10 @@ import com.maisfinanca.backend.config.JwtUtil;
 import com.maisfinanca.backend.dto.Login.LoginRequest;
 import com.maisfinanca.backend.dto.Login.LoginResponse;
 import com.maisfinanca.backend.dto.ResponseWrapper;
+import com.maisfinanca.backend.security.SecurityConfig;
 import com.maisfinanca.backend.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@Tag(name = "Auth")
+@SecurityRequirement(name = SecurityConfig.SECURITY)
 @RequestMapping("/api/auth")
 public class AuthController {
 

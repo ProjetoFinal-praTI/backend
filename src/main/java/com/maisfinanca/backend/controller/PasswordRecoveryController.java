@@ -3,12 +3,15 @@ package com.maisfinanca.backend.controller;
 import com.maisfinanca.backend.entity.User;
 import com.maisfinanca.backend.exception.NotFoundException;
 import com.maisfinanca.backend.repository.UserRepository;
+import com.maisfinanca.backend.security.SecurityConfig;
 import com.maisfinanca.backend.service.PasswordRecoveryService;
 import com.maisfinanca.backend.dto.Reset.CheckPasswordRequest;
 import com.maisfinanca.backend.dto.Reset.PasswordRecoveryRequest;
 import com.maisfinanca.backend.dto.Reset.PasswordRecoveryResponse;
 import com.maisfinanca.backend.dto.Reset.PasswordResetRequest;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
+@Tag(name = "Password Recovery")
+@SecurityRequirement(name = SecurityConfig.SECURITY)
 @RequestMapping("/api/password")
 @RequiredArgsConstructor
 public class PasswordRecoveryController {
