@@ -1,23 +1,27 @@
-# =========================
-# Fase de build com Maven + JDK 21
-# =========================
-FROM eclipse-temurin:21-jdk AS build
+# Use Maven com Eclipse Temurin 21 (build e runtime)
+FROM maven:3.9.11-eclipse-temurin-21-alpine AS build
 
-# Instala Maven
-RUN apt-get update && apt-get install -y maven
-COPY . .
+# Define o diretório de trabalho
+WORKDIR /app
 
-# Compila o projeto
+# Copia o pom.xml e faz o download das dependências (cache layer)
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# Copia o restante do código e faz o build do jar
+COPY src ./src
 RUN mvn clean package -DskipTests
 
-# =========================
-# Fase de runtime com JDK 21 slim
-# =========================
-FROM eclipse-temurin:21-jdk-slim
+# Fase final (runtime)
+FROM eclipse-temurin:21-jdk
 
+WORKDIR /app
+
+# Copia o jar da fase de build
+COPY --from=build /app/target/*.jar app.jar
+
+# Expõe a porta padrão do Spring Boot
 EXPOSE 8080
-# Copia o artefato da fase de build
-COPY --from=build /target/mais_financa-1.0.0.jar app.jar
 
-# Executa a aplicação
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+# Comando para rodar a aplicação
+ENTRYPOINT ["java","-jar","app.jar"]
