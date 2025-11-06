@@ -3,7 +3,10 @@ package com.maisfinanca.backend.controller;
 import com.maisfinanca.backend.entity.User;
 import com.maisfinanca.backend.dto.ResponseWrapper;
 import com.maisfinanca.backend.dto.User.*;
+import com.maisfinanca.backend.security.SecurityConfig;
 import com.maisfinanca.backend.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Tag(name = "User")
+@SecurityRequirement(name = SecurityConfig.SECURITY)
 @RequestMapping("/api/users")
 public class UserController {
     @Autowired

@@ -4,7 +4,10 @@ import com.maisfinanca.backend.dto.ResponseWrapper;
 import com.maisfinanca.backend.dto.Transactions.*;
 import com.maisfinanca.backend.dto.Transactions.Goal.*;
 import com.maisfinanca.backend.dto.Transactions.Income.*;
+import com.maisfinanca.backend.security.SecurityConfig;
 import com.maisfinanca.backend.service.TransactionService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Tag(name = "Transaction")
+@SecurityRequirement(name = SecurityConfig.SECURITY)
 @RequestMapping("/api/transactions")
 @RequiredArgsConstructor
 public class TransactionController {
