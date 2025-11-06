@@ -9,10 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.maisfinanca</groupId>
-	<artifactId>backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>backend</name>
+	<artifactId>mais_financa</artifactId>
+	<version>1.0.0</version>
+	<name>mais_financa</name>
 	<description>API for MaisFinanca Application</description>
 	<url/>
 	<licenses>
