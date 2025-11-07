@@ -29,9 +29,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        // 🔓 Ignorar endpoints públicos
-        if ((path.equals("/api/users") && request.getMethod().equalsIgnoreCase("POST"))
-                || (path.equals("/api/users/login") && request.getMethod().equalsIgnoreCase("POST"))) {
+        if (isPublicEndpoint(request, path)) {
             chain.doFilter(request, response);
             return;
         }
@@ -66,5 +64,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         chain.doFilter(request, response);
+    }
+
+    private boolean isPublicEndpoint(HttpServletRequest request, String path) {
+        // Rotas públicas
+        if ((path.equals("/api/users") && request.getMethod().equalsIgnoreCase("POST"))
+                || (path.equals("/api/auth/login") && request.getMethod().equalsIgnoreCase("POST"))
+                || (path.equals("/api/users/login") && request.getMethod().equalsIgnoreCase("POST"))) { // mantém compatibilidade se existir
+            return true;
+        }
+
+        // Swagger / OpenAPI docs
+        return path.startsWith("/v3/api-docs")
+                || path.startsWith("/swagger-ui")
+                || path.equals("/swagger-ui.html");
     }
 }
